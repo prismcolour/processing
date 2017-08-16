@@ -1,9 +1,9 @@
 // moved keypressed to main file
-// keys not jamming up 
-// resistance to LEFT/RIGHT keys - needs to get fixed
-// in motion even when keys are not pressed
-// works fine if just using acceleration/deceleration to change direction
-// use left/right keys when shape gets stuck at boundaries
+// all keys working
+// original problem: resistance to LEFT/RIGHT keys - FIXED 
+// boundary issue fixed
+// set acceleration to 0 at boundaries and added a cushion
+// in motion even when keys are not pressed 
 
 color[] cmy = {#F2EA02, #099FFF, #FF0099};
 color[] palette = cmy;
@@ -50,11 +50,15 @@ acceleration = new PVector(-0.001, 0);
      println(key + " DOWN" + " " + shape.acceleration.x);
    } else if (keyCode == LEFT) {
      if (shape.location.x > 50){ // offset for left side - keeps x at 0
-     shape.location.x = shape.location.x - 10;
+     shape.acceleration.x = shape.acceleration.x *-3;
+     shape.location.x = shape.location.x - 60;
    println(keyCode);} }
     else if (keyCode == RIGHT){
      if (shape.location.x < width - 50) {// offset for right side - keeps x at width
-     shape.location.x = shape.location.x + 10;}
+     //velocity.limit(topspeed);
+     shape.boundary();
+     shape.acceleration.x = shape.acceleration.x *-3;
+     shape.location.x = shape.location.x + 60;}
    println(keyCode);
    } else if (key == 's') {
      shape.velocity.x = shape.velocity.x * 0; // stop 
